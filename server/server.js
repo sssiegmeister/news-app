@@ -13,6 +13,8 @@ const webpackConfig = require('../webpack.config');
 const isDev = process.env.NODE_ENV !== 'production';
 const port  = process.env.PORT || 8080;
 
+var users = require('./routes/api/users');
+
 
 // Configuration
 // ================================================================================================
@@ -21,12 +23,12 @@ const port  = process.env.PORT || 8080;
 mongoose.connect(isDev ? config.db_dev : config.db);
 mongoose.Promise = global.Promise;
 
-const app = express();
+var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 // API routes
-require('./routes')(app);
+// require('./routes')(app);
 
 if (isDev) {
   const compiler = webpack(webpackConfig);
@@ -57,6 +59,8 @@ if (isDev) {
     res.end();
   });
 }
+
+app.use('/api/users', users);
 
 app.listen(port, '0.0.0.0', (err) => {
   if (err) {

@@ -1,39 +1,21 @@
 import React, {Component} from 'react';
-import Card, {CardHeader, CardMedia} from 'material-ui/Card';
+import Card, {CardHeader, CardMedia, CardActions} from 'material-ui/Card';
 import Button from 'material-ui/Button';
 import StackGrid from 'react-stack-grid';
 import NewsAPI from 'newsapi';
 import Typography from 'material-ui/Typography';
-import Source from '../Source/Source';
-import { Route, Switch } from 'react-router-dom';
-import { Redirect } from 'react-router';
 import { connect } from 'react-redux';
+import { Redirect } from 'react-router';
 
 const newsapi = new NewsAPI('fa363c5ec01c43de92be1401661e3e8e');
 
-class Home extends Component {
+class Saved extends Component {
 
   constructor(props) {
     super(props);
     this.state = ({
-      sources: []
+      articles: []
     })
-  }
-
-  getSources() {
-    newsapi.v2.sources({
-      category: 'technology',
-      language: 'en',
-      country: 'us'
-    }).then(response => {
-      this.setState({
-        sources: response.sources
-      })
-    });
-  }
-
-  componentDidMount() {
-    this.getSources();
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -41,12 +23,12 @@ class Home extends Component {
   }
 
   render() {
+    const w = 300;
     if (!this.props.currentUser) {
       return (
         <Redirect to='/login'/>
       );
     }
-    const w = 300;
     return (
       <div>
         <StackGrid
@@ -56,24 +38,34 @@ class Home extends Component {
           monitorImagesLoaded={true}
           gridRef={grid => this.grid = grid}
         >
-          {this.state.sources.map((source, x) => (
-              <Card key={x}>
-                <CardHeader
-                  title={
-                    <Button onClick={() => this.props.history.push('/articles/' + source.name)}>
-                      {source.name}
-                    </Button>
-                  }
-                />
-                <Typography component="p">
-                  {source.description}
-                </Typography>
-              </Card>
+          {this.props.currentUser.saved.map((article, x) => (
+            <Card key={x}>
+              <img src={article.urlToImage} width={w}/>
+              <Typography gutterBottom variant="headline" component="h2">
+                {article.title}
+              </Typography>
+              <Typography component="p">
+                {article.description}
+              </Typography>
+              <CardActions>
+                <Button size="small" color="primary" onClick={() => {
+                  this.props.save(this.props.currentUser._id, article);
+                }}>
+                  Save
+                </Button>
+                <Button size="small" color="primary" onClick={() => {
+                  window.location.href = article.url;
+                }}>
+                  Read More
+                </Button>
+              </CardActions>
+            </Card>
           ))}
         </StackGrid>
       </div>
     )
   }
+
 }
 
 function mapStateToProps(state) {
@@ -91,4 +83,4 @@ function mapDispatchToProps(dispatch) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Saved);
