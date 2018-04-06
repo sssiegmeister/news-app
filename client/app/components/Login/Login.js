@@ -58,7 +58,7 @@ class Login extends React.Component {
   render() {
     return (
       <div>
-        <div className="col-md-6 col-md-offset-3">
+        <div style={{width: '60%', margin: '0 auto'}}>
 
           <h1>Login Page</h1>
           <form>

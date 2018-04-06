@@ -70,7 +70,7 @@ class SignUp extends Component {
     const { registering } = this.props;
     const { user, submitted } = this.state;
     return (
-      <div className="col-md-6 col-md-offset-3">
+      <div style={{width: '60%', margin: '0 auto'}}>
         <h1>Register</h1>
         <form name="form" onSubmit={this.handleSubmit}>
           <TextField
