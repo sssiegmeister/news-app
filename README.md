@@ -24,8 +24,4 @@ Production mode:
 npm start
 ```
 
-Development (Webpack dev server) mode:
-
-```shell
-npm run start:dev
-```
+In your browser, navigate to localhost:8080
