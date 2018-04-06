@@ -15,8 +15,6 @@ import NotFound from './components/App/NotFound';
 
 import Home from './components/Home/Home';
 
-import HelloWorld from './components/HelloWorld/HelloWorld';
-
 import Login from './components/Login/Login';
 import SignUp from './components/SignUp/SignUp';
 import Source from './components/Source/Source';

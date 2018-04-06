@@ -6,6 +6,7 @@ const path = require('path');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
+const favicon = require('express-favicon');
 
 const config = require('../config/config');
 const webpackConfig = require('../webpack.config');
@@ -27,6 +28,8 @@ var app = express();
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+
+app.use(favicon(__dirname + '..client/public/assets/image/logo.png'));
 // API routes
 // require('./routes')(app);
 
